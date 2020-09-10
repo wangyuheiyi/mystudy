@@ -1,12 +1,10 @@
 package com.heiyigame.websocketresid.configuration;
 
-import com.shanggame.websocketresid.interceptor.AuthWebSocketHandlerDecoratorFactory;
-import com.shanggame.websocketresid.interceptor.MyChannelInterceptorAdapter;
-import com.shanggame.websocketresid.interceptor.MyHandShakeInterceptor;
-import com.shanggame.websocketresid.interceptor.MyPrincipalHandshakeHandler;
+import com.heiyigame.websocketresid.interceptor.AuthWebSocketHandlerDecoratorFactory;
+import com.heiyigame.websocketresid.interceptor.MyHandShakeInterceptor;
+import com.heiyigame.websocketresid.interceptor.MyPrincipalHandshakeHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
