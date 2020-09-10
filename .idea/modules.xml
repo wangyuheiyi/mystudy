@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/mystudy.iml" filepath="$PROJECT_DIR$/.idea/mystudy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/websocketresid/websocketresid.iml" filepath="$PROJECT_DIR$/websocketresid/websocketresid.iml" />
     </modules>
   </component>
 </project>
