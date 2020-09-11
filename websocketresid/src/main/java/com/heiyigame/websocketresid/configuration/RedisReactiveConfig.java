@@ -12,7 +12,9 @@ import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisNode;
+import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisSentinelConfiguration;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
@@ -49,6 +51,8 @@ public class RedisReactiveConfig {
         }
         sentinelConfig.setSentinels(sentinels);
         sentinelConfig.setDatabase(redisPropertie.getDatabase());
+        sentinelConfig.setPassword(redisPropertie.getPassword());
+//        sentinelConfig.setSentinelPassword(redisPropertie.getPassword());
         return sentinelConfig;
     }
 
@@ -85,12 +89,29 @@ public class RedisReactiveConfig {
     }
 
     /**
+     * redis 单节点配置
+     *
+     * @return
+     */
+    @Bean
+    public RedisStandaloneConfiguration redisStandaloneConfiguration() {
+        RedisStandaloneConfiguration standConfig = new RedisStandaloneConfiguration();
+        standConfig.setHostName(redisPropertie.getHost());
+        standConfig.setPort(redisPropertie.getPort());
+        standConfig.setDatabase(redisPropertie.getDatabase());
+        standConfig.setPassword(RedisPassword.of(redisPropertie.getPassword()));
+        return standConfig;
+    }
+
+    /**
      * lettuce 连接工厂
      *
      * @return LettuceConnectionFactory
      */
     @Bean
-    public LettuceConnectionFactory reactiveRedisConnectionFactory(@Qualifier("lettucePoolConfig") LettucePoolingClientConfiguration lettucePoolConfig,@Qualifier("redisSentinelConfiguration")RedisSentinelConfiguration redisSentinelConfiguration) {
+    public LettuceConnectionFactory reactiveRedisConnectionFactory(@Qualifier("lettucePoolConfig") LettucePoolingClientConfiguration lettucePoolConfig,
+                                                                   @Qualifier("redisSentinelConfiguration")RedisSentinelConfiguration redisSentinelConfiguration,
+                                                                   @Qualifier("redisStandaloneConfiguration")RedisStandaloneConfiguration redisStandaloneConfiguration) {
         return   new LettuceConnectionFactory(redisSentinelConfiguration, lettucePoolConfig);
     }
 

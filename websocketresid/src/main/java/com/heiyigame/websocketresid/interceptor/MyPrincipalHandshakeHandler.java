@@ -23,7 +23,6 @@ import java.util.Map;
 public class MyPrincipalHandshakeHandler extends DefaultHandshakeHandler {
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
-
         HttpSession httpSession = getSession(request);
         String user = (String)httpSession.getAttribute("loginName");
 

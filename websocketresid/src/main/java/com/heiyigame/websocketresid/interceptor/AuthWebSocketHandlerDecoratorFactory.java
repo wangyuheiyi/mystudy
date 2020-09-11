@@ -30,9 +30,15 @@ public class AuthWebSocketHandlerDecoratorFactory implements WebSocketHandlerDec
                 Principal principal = webSocketSession.getPrincipal();
                 if(principal != null){
                     String username = principal.getName();
-                    log.info("websocket online: " + username + " session " + webSocketSession.getId());
-                    redisReactiveUtil.set(username, webSocketSession.getId());
-                    redisReactiveUtil.get(username).subscribe(s-> log.info("websocket online: " + username + " session "+s));
+                    String websocketSessionId=webSocketSession.getId();
+                    log.info("websocket online: " + username + " session " + websocketSessionId);
+                    redisReactiveUtil.set(username, webSocketSession.getId()).subscribe(s-> {
+                        if (s) {
+                            log.info("save redis key: " + username + " valeu " + websocketSessionId);
+                        }else{
+                            log.info("save redis error key: " + username + " valeu " + websocketSessionId);
+                        }
+                    });
                 }
                 super.afterConnectionEstablished(webSocketSession);
             }
@@ -54,7 +60,7 @@ public class AuthWebSocketHandlerDecoratorFactory implements WebSocketHandlerDec
                 if(principal != null){
                     String username = webSocketSession.getPrincipal().getName();
                     log.info("websocket offline: " + username);
-                    redisReactiveUtil.del(username);
+                    redisReactiveUtil.del(username).subscribe(s-> log.info("del redis key: " + username + " valeu " + s));
                 }
                 super.afterConnectionClosed(webSocketSession, closeStatus);
             }

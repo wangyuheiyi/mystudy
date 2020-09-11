@@ -23,7 +23,7 @@ spring:
         min-idle: 2 # 连接池中的最小空闲连接 默认 0
         max-wait: -1 # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
         time-between-eviction-runs: 2000 #从池中取出连接前进行检验的校验时长
-      shutdown-timeout: 100
+      shutdown-timeout: 2000
     timeout: 3000
     database: 0
 server:
