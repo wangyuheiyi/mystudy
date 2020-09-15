@@ -1,6 +1,7 @@
 package com.heiyigame.websocketresid.controller;
 import com.alibaba.fastjson.JSON;
 import com.heiyigame.websocketresid.beans.RequestMessage;
+import com.heiyigame.websocketresid.reactiveutil.RedisReactiveUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class SendBroadcastCtl {
     @Autowired
     private AmqpTemplate amqpTemplate;
+    @Autowired
+    private RedisReactiveUtil redisReactiveUtil;
 
     @RequestMapping(value = "/sendInfo", method = RequestMethod.GET)
     @ResponseBody
