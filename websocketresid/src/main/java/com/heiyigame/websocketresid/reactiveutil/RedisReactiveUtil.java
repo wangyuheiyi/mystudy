@@ -1,7 +1,7 @@
 package com.heiyigame.websocketresid.reactiveutil;
 
 
-import lombok.extern.slf4j.Slf4j;
+import com.heiyigame.websocketresid.utils.LogUtil;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
@@ -16,7 +16,6 @@ import java.util.Map;
  * @author admin
  */
 @Component
-@Slf4j
 public class RedisReactiveUtil {
     private final ReactiveRedisTemplate<String, Object> reactiveRedisTemplate;
 
@@ -40,7 +39,7 @@ public class RedisReactiveUtil {
                 return Mono.just(false);
             }
         } catch (Exception e) {
-            log.error(MessageFormat.format(" RedisReactive set timeout error fun={0}","expire"),e);
+            LogUtil.mygame.error(MessageFormat.format(" RedisReactive set timeout error fun={0}","expire"),e);
             return Mono.just(false);
         }
     }
@@ -67,7 +66,7 @@ public class RedisReactiveUtil {
         try {
             return reactiveRedisTemplate.hasKey(key);
         } catch (Exception e) {
-            log.error(MessageFormat.format(" RedisReactive hasKey timeout error fun={0}","hasKey"),e);
+            LogUtil.mygame.error(MessageFormat.format(" RedisReactive hasKey timeout error fun={0}","hasKey"),e);
             return Mono.just(false);
         }
     }
@@ -107,7 +106,7 @@ public class RedisReactiveUtil {
         try {
             return reactiveRedisTemplate.opsForValue().set(key, value);
         } catch (Exception e) {
-            log.error(MessageFormat.format("RedisReactive set value is error fun={0}","set"),e);
+            LogUtil.mygame.error(MessageFormat.format("RedisReactive set value is error fun={0}","set"),e);
             return Mono.just(false);
         }
     }
@@ -130,7 +129,7 @@ public class RedisReactiveUtil {
                 return set(key, value);
             }
         } catch (Exception e) {
-            log.error(MessageFormat.format("RedisReactive set value is error fun={0}","set tiemout"),e);
+            LogUtil.mygame.error(MessageFormat.format("RedisReactive set value is error fun={0}","set tiemout"),e);
             return Mono.just(false);
         }
     }
@@ -228,7 +227,7 @@ public class RedisReactiveUtil {
         try {
             return reactiveRedisTemplate.opsForHash().putAll(key, map);
         } catch (Exception e) {
-            log.error(MessageFormat.format("RedisReactive hmset value is error fun={0}","hmset"),e);
+            LogUtil.mygame.error(MessageFormat.format("RedisReactive hmset value is error fun={0}","hmset"),e);
             return Mono.just(false);
         }
     }
@@ -249,7 +248,7 @@ public class RedisReactiveUtil {
             }
             return hmset(key,map);
         } catch (Exception e) {
-            log.error(MessageFormat.format("RedisReactive hmset value is error fun={0}","hmset"),e);
+            LogUtil.mygame.error(MessageFormat.format("RedisReactive hmset value is error fun={0}","hmset"),e);
             return Mono.just(false);
         }
     }
@@ -268,7 +267,7 @@ public class RedisReactiveUtil {
         try {
             return reactiveRedisTemplate.opsForHash().put(key, hashKey, value);
         } catch (Exception e) {
-            log.error(MessageFormat.format("RedisReactive hset value is error fun={0}","hset"),e);
+            LogUtil.mygame.error(MessageFormat.format("RedisReactive hset value is error fun={0}","hset"),e);
             return Mono.just(false);
         }
     }
@@ -291,7 +290,7 @@ public class RedisReactiveUtil {
             }
             return hset(key,hashKey,value);
         } catch (Exception e) {
-            log.error(MessageFormat.format("RedisReactive hset value is error fun={0}","hset timeout"),e);
+            LogUtil.mygame.error(MessageFormat.format("RedisReactive hset value is error fun={0}","hset timeout"),e);
             return Mono.just(false);
         }
     }
@@ -388,7 +387,7 @@ public class RedisReactiveUtil {
         try {
             return reactiveRedisTemplate.opsForSet().members(key);
         } catch (Exception e) {
-            log.error(MessageFormat.format("RedisReactive sGet value is error fun={0}","sGet"),e);
+            LogUtil.mygame.error(MessageFormat.format("RedisReactive sGet value is error fun={0}","sGet"),e);
             return Flux.empty();
         }
     }
@@ -406,7 +405,7 @@ public class RedisReactiveUtil {
         try {
             return reactiveRedisTemplate.opsForSet().isMember(key, value);
         } catch (Exception e) {
-            log.error(MessageFormat.format("RedisReactive sHasKey value is error fun={0}","sHasKey"),e);
+            LogUtil.mygame.error(MessageFormat.format("RedisReactive sHasKey value is error fun={0}","sHasKey"),e);
             return Mono.just(false);
         }
     }
@@ -424,7 +423,7 @@ public class RedisReactiveUtil {
         try {
             return reactiveRedisTemplate.opsForSet().add(key, values);
         } catch (Exception e) {
-            log.error(MessageFormat.format("RedisReactive sSet value is error fun={0}","sSet"),e);
+            LogUtil.mygame.error(MessageFormat.format("RedisReactive sSet value is error fun={0}","sSet"),e);
             return Mono.just(0L);
         }
     }
@@ -447,7 +446,7 @@ public class RedisReactiveUtil {
             }
             return count;
         } catch (Exception e) {
-            log.error(MessageFormat.format("RedisReactive sSetAndTime value is error fun={0}","sSetAndTime"),e);
+            LogUtil.mygame.error(MessageFormat.format("RedisReactive sSetAndTime value is error fun={0}","sSetAndTime"),e);
             return Mono.just(0L);
         }
     }

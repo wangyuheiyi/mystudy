@@ -1,7 +1,6 @@
 package com.heiyigame.websocketresid.controller;
 import com.heiyigame.websocketresid.beans.RequestMessage;
 import com.heiyigame.websocketresid.beans.ResponseMessage;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
@@ -19,15 +18,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author admin
  */
 @Controller
-@Slf4j
 public class WebSocketBroadcastCtl {
     private AtomicInteger count = new AtomicInteger(0);
     @SendToUser("/exchange/mytest/getMqResponse")
     public ResponseMessage broadcast(RequestMessage requestMessage){
-        ResponseMessage responseMessage = new ResponseMessage();
-        responseMessage.setResMessage("BroadcastCtl receive [" + count.incrementAndGet() + "] records");
-        responseMessage.setResDesc("BroadcastCtl receiveMessage [" + requestMessage.getMessageInfo() + "] records");
-        return responseMessage;
+        return new ResponseMessage("BroadcastCtl receive [" + count.incrementAndGet() + "] records","BroadcastCtl receiveMessage [" + requestMessage.getMessageInfo() + "] records");
     }
 
     /**

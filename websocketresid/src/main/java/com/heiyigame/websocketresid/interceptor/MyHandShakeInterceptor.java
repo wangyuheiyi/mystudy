@@ -1,6 +1,6 @@
 package com.heiyigame.websocketresid.interceptor;
 
-import lombok.extern.slf4j.Slf4j;
+import com.heiyigame.websocketresid.utils.LogUtil;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -18,18 +18,17 @@ import java.util.Map;
  * 握手协议的时候拦截
  */
 @Component
-@Slf4j
 public class MyHandShakeInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Map<String, Object> map) throws Exception {
-        log.info(this.getClass().getCanonicalName() + "http协议转换websoket协议进行前, 握手前"+serverHttpRequest.getURI());
+        LogUtil.mygame.info(this.getClass().getCanonicalName() + "http协议转换websoket协议进行前, 握手前"+serverHttpRequest.getURI());
         HttpSession httpSession = getSession(serverHttpRequest);
         String user = (String)httpSession.getAttribute("loginName");
         if(StringUtils.isEmpty(user)){
-            log.error("未登录系统，禁止登录websocket!");
+            LogUtil.mygame.error("未登录系统，禁止登录websocket!");
             return false;
         }
-        log.info("login = " + user);
+        LogUtil.mygame.info("login = " + user);
         return true;
     }
 

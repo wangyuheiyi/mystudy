@@ -1,7 +1,7 @@
 package com.heiyigame.websocketresid.interceptor;
 
 import com.heiyigame.websocketresid.beans.MyPrincipal;
-import lombok.extern.slf4j.Slf4j;
+import com.heiyigame.websocketresid.utils.LogUtil;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.lang.Nullable;
@@ -19,7 +19,6 @@ import java.util.Map;
  * 处理websocket请求
  */
 @Component
-@Slf4j
 public class MyPrincipalHandshakeHandler extends DefaultHandshakeHandler {
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
@@ -27,10 +26,10 @@ public class MyPrincipalHandshakeHandler extends DefaultHandshakeHandler {
         String user = (String)httpSession.getAttribute("loginName");
 
         if(StringUtils.isEmpty(user)){
-            log.error("未登录系统，禁止登录websocket!");
+            LogUtil.mygame.error("未登录系统，禁止登录websocket!");
             return null;
         }
-        log.info(" MyDefaultHandshakeHandler login = " + user);
+        LogUtil.mygame.info(" MyDefaultHandshakeHandler login = " + user);
         return new MyPrincipal(user);
     }
 

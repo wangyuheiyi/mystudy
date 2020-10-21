@@ -3,7 +3,7 @@ package com.heiyigame.websocketresid.configuration;
 import com.heiyigame.websocketresid.interceptor.AuthWebSocketHandlerDecoratorFactory;
 import com.heiyigame.websocketresid.interceptor.MyHandShakeInterceptor;
 import com.heiyigame.websocketresid.interceptor.MyPrincipalHandshakeHandler;
-import lombok.extern.slf4j.Slf4j;
+import com.heiyigame.websocketresid.utils.LogUtil;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,6 @@ import org.springframework.web.socket.config.annotation.WebSocketTransportRegist
  * @author admin
  */
 @Configuration
-@Slf4j
 /** 此注解表示使用STOMP协议来传输基于消息代理的消息，此时可以在@Controller类中使用@MessageMapping*/
 @EnableWebSocketMessageBroker
 public class MyWebSocketMessageBrokerConfigurer implements WebSocketMessageBrokerConfigurer {
@@ -87,13 +86,13 @@ public class MyWebSocketMessageBrokerConfigurer implements WebSocketMessageBroke
         ChannelInterceptor interceptor = new ChannelInterceptor(){
             @Override
             public boolean preReceive(MessageChannel channel) {
-                log.info("myChannelInterceptorAdapter: preReceive");
+                LogUtil.mygame.info("myChannelInterceptorAdapter: preReceive");
                 return true;
             }
 
             @Override
             public Message<?> preSend(Message<?> message, MessageChannel channel) {
-                log.info("myChannelInterceptorAdapter: preSend");
+                LogUtil.mygame.info("myChannelInterceptorAdapter: preSend");
                 Assert.notNull(message, "Message must not be null");
                 StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
                 Assert.notNull(accessor, "accessor must not be null");
@@ -103,10 +102,10 @@ public class MyWebSocketMessageBrokerConfigurer implements WebSocketMessageBroke
                     //检测用户订阅内容（防止用户订阅不合法频道）
                     switch (command.getMessageType()){
                         case SUBSCRIBE:
-                            log.info(this.getClass().getCanonicalName() + " 用户订阅目的地=" + accessor.getDestination());
+                            LogUtil.mygame.info(this.getClass().getCanonicalName() + " 用户订阅目的地=" + accessor.getDestination());
                             break;
                         default:
-                            log.error("Unexpected value: " + command.getMessageType());
+                            LogUtil.mygame.error("Unexpected value: " + command.getMessageType());
                             break;
                     }
                 }
@@ -115,7 +114,7 @@ public class MyWebSocketMessageBrokerConfigurer implements WebSocketMessageBroke
 
             @Override
             public void afterSendCompletion(Message<?> message, MessageChannel channel, boolean sent, Exception ex) {
-                log.info("myChannelInterceptorAdapter: afterSendCompletion");
+                LogUtil.mygame.info("myChannelInterceptorAdapter: afterSendCompletion");
                 StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
                 Assert.notNull(accessor, "accessor must not be null");
                 if(!accessor.isHeartbeat()){
@@ -123,24 +122,24 @@ public class MyWebSocketMessageBrokerConfigurer implements WebSocketMessageBroke
                     Assert.notNull(command, "command must not be null");
                     switch (command.getMessageType()){
                         case SUBSCRIBE:
-                            log.info(this.getClass().getCanonicalName() + " 订阅消息发送成功");
+                            LogUtil.mygame.info(this.getClass().getCanonicalName() + " 订阅消息发送成功");
                             /** 第一个参数是交换机，第二个参数是交换机和queue绑定的key**/
                             amqpTemplate.convertAndSend("mytest","getMqResponse","消息发送成功");
                             break;
                         case MESSAGE:
-                            log.info(this.getClass().getCanonicalName() + " 心跳消息");
+                            LogUtil.mygame.info(this.getClass().getCanonicalName() + " 心跳消息");
                             amqpTemplate.convertAndSend("mytest","getMqResponse","消息发送心跳成功");
                             break;
                         case DISCONNECT:
-                            log.info(this.getClass().getCanonicalName() + "用户断开连接成功");
+                            LogUtil.mygame.info(this.getClass().getCanonicalName() + "用户断开连接成功");
                             amqpTemplate.convertAndSend("mytest","getMqResponse","{'msg':'用户断开连接成功'}");
                             break;
                         default:
-                            log.error("Unexpected value: " + command.getMessageType());
+                            LogUtil.mygame.error("Unexpected value: " + command.getMessageType());
                             break;
                     }
                 }else{
-                    log.info(this.getClass().getCanonicalName() + " 心跳消息");
+                    LogUtil.mygame.info(this.getClass().getCanonicalName() + " 心跳消息");
                     amqpTemplate.convertAndSend("mytest","getMqResponse","消息发送心跳成功");
                 }
             }

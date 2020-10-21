@@ -1,7 +1,7 @@
 package com.heiyigame.websocketresid.interceptor;
 
 import com.heiyigame.websocketresid.reactiveutil.RedisReactiveUtil;
-import lombok.extern.slf4j.Slf4j;
+import com.heiyigame.websocketresid.utils.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -17,7 +17,6 @@ import java.security.Principal;
  * @author admin
  */
 @Component
-@Slf4j
 public class AuthWebSocketHandlerDecoratorFactory implements WebSocketHandlerDecoratorFactory {
     @Autowired
     RedisReactiveUtil redisReactiveUtil;
@@ -31,12 +30,12 @@ public class AuthWebSocketHandlerDecoratorFactory implements WebSocketHandlerDec
                 if(principal != null){
                     String username = principal.getName();
                     String websocketSessionId=webSocketSession.getId();
-                    log.info("websocket online: " + username + " session " + websocketSessionId);
-                    redisReactiveUtil.set(username, webSocketSession.getId()).subscribe(s-> {
+                    LogUtil.mygame.info("websocket online: " + username + " session " + websocketSessionId);
+                    redisReactiveUtil.set(username, websocketSessionId).subscribe(s-> {
                         if (s) {
-                            log.info("save redis key: " + username + " valeu " + websocketSessionId);
+                            LogUtil.mygame.info("save redis key: " + username + " valeu " + websocketSessionId);
                         }else{
-                            log.info("save redis error key: " + username + " valeu " + websocketSessionId);
+                            LogUtil.mygame.info("save redis error key: " + username + " valeu " + websocketSessionId);
                         }
                     });
                 }
@@ -59,8 +58,8 @@ public class AuthWebSocketHandlerDecoratorFactory implements WebSocketHandlerDec
                 Principal principal = webSocketSession.getPrincipal();
                 if(principal != null){
                     String username = webSocketSession.getPrincipal().getName();
-                    log.info("websocket offline: " + username);
-                    redisReactiveUtil.del(username).subscribe(s-> log.info("del redis key: " + username + " valeu " + s));
+                    LogUtil.mygame.info("websocket offline: " + username);
+                    redisReactiveUtil.del(username).subscribe(s-> LogUtil.mygame.info("del redis key: " + username + " valeu " + s));
                 }
                 super.afterConnectionClosed(webSocketSession, closeStatus);
             }
