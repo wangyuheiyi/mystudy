@@ -10,6 +10,8 @@ public class RequestMessage {
     private String messageInfo;
 
     public RequestMessage(String userName, String message) {
+        this.messageName=userName;
+        this.messageInfo=message;
     }
 
     public String getMessageName() {

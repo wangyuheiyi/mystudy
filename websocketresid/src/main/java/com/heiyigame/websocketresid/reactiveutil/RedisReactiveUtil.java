@@ -2,6 +2,7 @@ package com.heiyigame.websocketresid.reactiveutil;
 
 
 import com.heiyigame.websocketresid.utils.LogUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
@@ -17,11 +18,8 @@ import java.util.Map;
  */
 @Component
 public class RedisReactiveUtil {
-    private final ReactiveRedisTemplate<String, Object> reactiveRedisTemplate;
-
-    public RedisReactiveUtil(ReactiveRedisTemplate<String, Object> reactiveRedisTemplate) {
-        this.reactiveRedisTemplate = reactiveRedisTemplate;
-    }
+    @Autowired
+    private ReactiveRedisTemplate<String, Object> reactiveRedisTemplate;
 
     /**
      *

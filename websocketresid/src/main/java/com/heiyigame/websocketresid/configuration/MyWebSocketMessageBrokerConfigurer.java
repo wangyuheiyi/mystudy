@@ -3,6 +3,7 @@ package com.heiyigame.websocketresid.configuration;
 import com.heiyigame.websocketresid.interceptor.AuthWebSocketHandlerDecoratorFactory;
 import com.heiyigame.websocketresid.interceptor.MyHandShakeInterceptor;
 import com.heiyigame.websocketresid.interceptor.MyPrincipalHandshakeHandler;
+import com.heiyigame.websocketresid.reactiveutil.RedisReactiveUtil;
 import com.heiyigame.websocketresid.utils.LogUtil;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +16,18 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.util.Assert;
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
-import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
-import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
+import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.config.annotation.*;
+import org.springframework.web.socket.handler.WebSocketHandlerDecorator;
+import org.springframework.web.socket.handler.WebSocketHandlerDecoratorFactory;
 
 /**
  * @author admin
  */
-@Configuration
 /** 此注解表示使用STOMP协议来传输基于消息代理的消息，此时可以在@Controller类中使用@MessageMapping*/
+@Configuration
 @EnableWebSocketMessageBroker
 public class MyWebSocketMessageBrokerConfigurer implements WebSocketMessageBrokerConfigurer {
     @Autowired
@@ -120,19 +123,20 @@ public class MyWebSocketMessageBrokerConfigurer implements WebSocketMessageBroke
                 if(!accessor.isHeartbeat()){
                     StompCommand command = accessor.getCommand();
                     Assert.notNull(command, "command must not be null");
+//                    Message<String> resmessage=new Message();
                     switch (command.getMessageType()){
                         case SUBSCRIBE:
                             LogUtil.mygame.info(this.getClass().getCanonicalName() + " 订阅消息发送成功");
                             /** 第一个参数是交换机，第二个参数是交换机和queue绑定的key**/
-                            amqpTemplate.convertAndSend("mytest","getMqResponse","消息发送成功");
+                            //amqpTemplate.convertAndSend("mytest","getMqResponse","消息发送成功");
                             break;
                         case MESSAGE:
                             LogUtil.mygame.info(this.getClass().getCanonicalName() + " 心跳消息");
-                            amqpTemplate.convertAndSend("mytest","getMqResponse","消息发送心跳成功");
+                           // amqpTemplate.convertAndSend("mytest","getMqResponse","消息发送心跳成功");
                             break;
                         case DISCONNECT:
                             LogUtil.mygame.info(this.getClass().getCanonicalName() + "用户断开连接成功");
-                            amqpTemplate.convertAndSend("mytest","getMqResponse","{'msg':'用户断开连接成功'}");
+                           // amqpTemplate.convertAndSend("mytest","getMqResponse","{'msg':'用户断开连接成功'}");
                             break;
                         default:
                             LogUtil.mygame.error("Unexpected value: " + command.getMessageType());
@@ -140,7 +144,7 @@ public class MyWebSocketMessageBrokerConfigurer implements WebSocketMessageBroke
                     }
                 }else{
                     LogUtil.mygame.info(this.getClass().getCanonicalName() + " 心跳消息");
-                    amqpTemplate.convertAndSend("mytest","getMqResponse","消息发送心跳成功");
+                    //amqpTemplate.convertAndSend("mytest","getMqResponse","消息发送心跳成功");
                 }
             }
         };
@@ -154,6 +158,29 @@ public class MyWebSocketMessageBrokerConfigurer implements WebSocketMessageBroke
     @Override
     public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
         registration.addDecoratorFactory(myWebSocketHandlerDecoratorFactory);
-        WebSocketMessageBrokerConfigurer.super.configureWebSocketTransport(registration);
+//        super.configureWebSocketTransport(registration);
+
+//        registration.addDecoratorFactory(new WebSocketHandlerDecoratorFactory() {
+//            @Override
+//            public WebSocketHandler decorate(final WebSocketHandler handler) {
+//                return new WebSocketHandlerDecorator(handler) {
+//                    @Override
+//                    public void afterConnectionEstablished(final WebSocketSession session) throws Exception {
+//                        // 客户端与服务器端建立连接后，此处记录谁上线了
+//                        String username = session.getPrincipal().getName();
+//                        LogUtil.mygame.info("online: " + username);
+//                        super.afterConnectionEstablished(session);
+//                    }
+//
+//                    @Override
+//                    public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
+//                        // 客户端与服务器端断开连接后，此处记录谁下线了
+//                        String username = session.getPrincipal().getName();
+//                        LogUtil.mygame.info("offline: " + username);
+//                        super.afterConnectionClosed(session, closeStatus);
+//                    }
+//                };
+//            }
+//        });
     }
 }

@@ -67,7 +67,7 @@
         </Logger>
 
         <Logger name="mygame" level="info" additivity="false">
-            <AppenderRef ref="mygame"/>
+            <AppenderRef ref="Console"/>
         </Logger>
 
         <root level="info">

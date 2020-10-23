@@ -8,6 +8,7 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.springframework.web.socket.handler.WebSocketHandlerDecorator;
 import org.springframework.web.socket.handler.WebSocketHandlerDecoratorFactory;
 
@@ -21,10 +22,10 @@ public class AuthWebSocketHandlerDecoratorFactory implements WebSocketHandlerDec
     @Autowired
     RedisReactiveUtil redisReactiveUtil;
     @Override
-    public WebSocketHandler decorate(WebSocketHandler webSocketHandler) {
+    public WebSocketHandler decorate(final WebSocketHandler webSocketHandler) {
         return new WebSocketHandlerDecorator(webSocketHandler) {
             @Override
-            public void afterConnectionEstablished(WebSocketSession webSocketSession) throws Exception {
+            public void afterConnectionEstablished(final WebSocketSession webSocketSession) throws Exception {
                 // 客户端与服务器端建立连接后，此处记录谁上线了
                 Principal principal = webSocketSession.getPrincipal();
                 if(principal != null){
@@ -42,15 +43,15 @@ public class AuthWebSocketHandlerDecoratorFactory implements WebSocketHandlerDec
                 super.afterConnectionEstablished(webSocketSession);
             }
 
-            @Override
-            public void handleMessage(WebSocketSession webSocketSession, WebSocketMessage<?> webSocketMessage) throws Exception {
-
-            }
-
-            @Override
-            public void handleTransportError(WebSocketSession webSocketSession, Throwable throwable) throws Exception {
-
-            }
+//            @Override
+//            public void handleMessage(WebSocketSession webSocketSession, WebSocketMessage<?> webSocketMessage) throws Exception {
+//
+//            }
+//
+//            @Override
+//            public void handleTransportError(WebSocketSession webSocketSession, Throwable throwable) throws Exception {
+//
+//            }
 
             @Override
             public void afterConnectionClosed(WebSocketSession webSocketSession, CloseStatus closeStatus) throws Exception {
@@ -70,4 +71,33 @@ public class AuthWebSocketHandlerDecoratorFactory implements WebSocketHandlerDec
             }
         };
     }
+
+//    @Override
+//    public WebSocketHandler decorate(final WebSocketHandler handler) {
+//        return new WebSocketHandlerDecorator(handler) {
+//            @Override
+//            public void afterConnectionEstablished(final WebSocketSession session) throws Exception {
+//                // 客户端与服务器端建立连接后，此处记录谁上线了
+//                String username = session.getPrincipal().getName();
+//                String websocketSessionId=session.getId();
+//                LogUtil.mygame.info("online: " + username+" websocketSessionId："+websocketSessionId);
+//                redisReactiveUtil.set(username, websocketSessionId).subscribe(s-> {
+//                    if (s) {
+//                        LogUtil.mygame.info("save redis key: " + username + " valeu " + websocketSessionId);
+//                    }else{
+//                        LogUtil.mygame.info("save redis error key: " + username + " valeu " + websocketSessionId);
+//                    }
+//                });
+//                super.afterConnectionEstablished(session);
+//            }
+//
+//            @Override
+//            public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
+//                // 客户端与服务器端断开连接后，此处记录谁下线了
+//                String username = session.getPrincipal().getName();
+//                LogUtil.mygame.info("offline: " + username);
+//                super.afterConnectionClosed(session, closeStatus);
+//            }
+//        };
+//    }
 }

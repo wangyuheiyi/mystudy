@@ -57,7 +57,10 @@ var loginInfoApp=new Vue({
         },
         showResponse(message) {
             var response = document.getElementById("response");
-            response.innerHTML+=message + "</br>" + response.innerHTML;
+            response.innerHTML+=message;
+        },
+        sendReceiveInfo: function (){
+            stompClient.send("/receive", {}, JSON.stringify({ 'messageName':123,'messageInfo': 'myTestInfo' }));
         }
     }
 });
