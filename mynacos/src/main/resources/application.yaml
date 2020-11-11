@@ -1,1 +1,13 @@
-
+server:
+  port: 8080
+spring:
+  application:
+    name: mynacos
+  cloud:
+    nacos:
+      config:
+        encode: UTF-8
+      discovery:
+        server-addr: http://localhost:8848
+        username: nacos
+        password: nacos
