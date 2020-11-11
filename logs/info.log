@@ -1,0 +1,8 @@
+14:39:37.026 [restartedMain] INFO  com.heiyigame.websocketresid.WebsocketresidApplication - Starting WebsocketresidApplication on DESKTOP-465QJHM with PID 14520 (D:\IdeaProjects\mystudy\websocketresid\target\classes started by admin in D:\IdeaProjects\mystudy)
+14:39:37.039 [restartedMain] INFO  com.heiyigame.websocketresid.WebsocketresidApplication - No active profile set, falling back to default profiles: default
+14:39:38.157 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+14:39:38.157 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+14:39:38.157 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.37]
+14:39:38.225 [restartedMain] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+14:39:39.199 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
+14:39:39.596 [restartedMain] INFO  com.heiyigame.websocketresid.WebsocketresidApplication - Started WebsocketresidApplication in 3.07 seconds (JVM running for 4.695)

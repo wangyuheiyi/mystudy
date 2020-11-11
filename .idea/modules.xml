@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/mynacos/mynacos.iml" filepath="$PROJECT_DIR$/mynacos/mynacos.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/mystudy.iml" filepath="$PROJECT_DIR$/.idea/mystudy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/websocketgateway/websocketgateway.iml" filepath="$PROJECT_DIR$/websocketgateway/websocketgateway.iml" />
       <module fileurl="file://$PROJECT_DIR$/websocketresid/websocketresid.iml" filepath="$PROJECT_DIR$/websocketresid/websocketresid.iml" />
     </modules>
   </component>

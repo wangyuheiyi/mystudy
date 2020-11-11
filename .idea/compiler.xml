@@ -8,14 +8,20 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="websocketresid" />
+        <module name="websocketgateway" />
+        <module name="mynacos" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="mynacos" target="1.8" />
+      <module name="websocketgateway" target="1.8" />
       <module name="websocketresid" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="mynacos" options="-parameters" />
+      <module name="websocketgateway" options="-parameters" />
       <module name="websocketresid" options="-parameters" />
     </option>
   </component>
