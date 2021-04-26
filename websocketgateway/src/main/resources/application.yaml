@@ -1,2 +1,25 @@
 server:
   port: 8090
+spring:
+  application:
+    name: my-gateway
+  cloud:
+    nacos:
+      config:
+        encode: UTF-8
+      discovery:
+        server-addr: http://localhost:8848
+        username: nacos
+        password: nacos
+      gateway:
+        discovery:
+          locator:
+            enabled: true
+            lower-case-service-id: true
+        routes:
+          - id: mytest-gateway
+            uri: lb://mynacos
+            predicates:
+              - Path=/mydemo/**/
+            filters:
+              - StripPrefix=1

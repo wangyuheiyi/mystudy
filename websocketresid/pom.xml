@@ -88,13 +88,15 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
 
 </project>
