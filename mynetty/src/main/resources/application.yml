@@ -1,2 +1,4 @@
 mynetty:
  port: 8000
+ websocket:
+  path: "/mytest"
