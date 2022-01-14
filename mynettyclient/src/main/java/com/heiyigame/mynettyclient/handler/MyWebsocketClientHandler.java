@@ -1,4 +1,4 @@
-package com.heiyigame.mynetty.handler;
+package com.heiyigame.mynettyclient.handler;
 
 import io.netty.channel.*;
 import io.netty.handler.codec.http.FullHttpResponse;
@@ -46,6 +46,8 @@ public class MyWebsocketClientHandler extends SimpleChannelInboundHandler<Object
                 //设置成功
                 this.handshakeFuture.setSuccess();
                 log.info("WebSocket Client connected! response headers[sec-websocket-extensions]:{}"+response.headers());
+
+
 
                 TextWebSocketFrame frame = new TextWebSocketFrame("我是文本");
                 channelHandlerContext.channel().writeAndFlush(frame).addListener(new ChannelFutureListener() {

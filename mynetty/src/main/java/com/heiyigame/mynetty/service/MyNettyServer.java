@@ -11,6 +11,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
+import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketServerCompressionHandler;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -76,6 +77,8 @@ public class MyNettyServer {
                         .addLast(new HttpServerCodec())
                         //netty是基于分段请求的，HttpObjectAggregator的作用是将请求分段再聚合,参数是聚合字节的最大长度
                         .addLast(new HttpObjectAggregator(64*1024))
+                        // 支持WebSocket数据压缩
+                        .addLast(new WebSocketServerCompressionHandler())
                         //WebSocketServerProtocolHandler 它负责websocket握手以及处理控制框架（Close，Ping（心跳检检测request），
                         // Pong（心跳检测响应））,文本和二进制数据帧被传递到管道中的下一个处理程序进行处理.并且执行完这个handler以后,会移除合和替换一些handler
                         //“/ws” 表示该处理器处理的websocketPaht的路径，例如 客户端连接时使用：ws://192.168.88.12/ws 才能被这个处理器处理，反之则不行，

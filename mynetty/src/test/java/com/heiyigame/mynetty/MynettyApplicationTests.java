@@ -32,7 +32,7 @@ class MynettyApplicationTests {
     void connectWebsocketTest(){
         EventLoopGroup group=new NioEventLoopGroup();
         try {
-            URI websocketURI = new URI("ws://10.2.129.100:8000/mytest");
+            URI websocketURI = new URI("ws://10.2.100.61:8000/mytest");
             HttpHeaders httpHeaders = new DefaultHttpHeaders();
             //进行握手
             WebSocketClientHandshaker handshaker = WebSocketClientHandshakerFactory.newHandshaker(websocketURI, WebSocketVersion.V13, (String)null, true,httpHeaders);
