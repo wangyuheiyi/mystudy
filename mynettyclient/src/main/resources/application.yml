@@ -1,0 +1,10 @@
+
+mynetty:
+  host: "ws://10.2.100.61:8000/mytest"
+server:
+  port: 8080
+  netty:
+    connection-timeout: 30
+spring:
+  application:
+    name: nettyclient
